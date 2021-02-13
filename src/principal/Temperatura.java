@@ -55,62 +55,57 @@ public class Temperatura {
 		
 	    int option;
 		int[] data = new int[31];
-		
 		Scanner ler = new Scanner(System.in);
-		System.out.print("Informe o número correspondente a opção desejada \n");
-		System.out.print("Digite 1 para entrar dados de temperatura \n");
-		System.out.print("Digite 2 para obter temperatura média \n");
-		System.out.print("Digite 3 para obter temperatura mínima \n");
-		System.out.print("Digite 4 para obter temperatura máxima \n");
-		System.out.print("Digite 5 para obter relatório meteorológico \n");
-
-		option = ler.nextInt();
-
-		while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5) {
-			System.out.print("Ops!Opção escolhida não é válida!\n");
+		
+		do{
+			System.out.print("Informe o número correspondente a opção desejada \n");
 			System.out.print("Digite 1 para entrar dados de temperatura \n");
 			System.out.print("Digite 2 para obter temperatura média \n");
 			System.out.print("Digite 3 para obter temperatura mínima \n");
 			System.out.print("Digite 4 para obter temperatura máxima \n");
 			System.out.print("Digite 5 para obter relatório meteorológico \n");
-			option = ler.nextInt();
-		}
-		
-		switch (option) {
-		case 1:
 
-			data[0] = 0;
-			data[1] = 0;
-			data = readDate();
-			inTemperature(data);
-			break;
-		case 2:
-			data[0] = 0;
-			data[1] = 0;
-			data = readDate();
-			avgTemperature(data);
-			break;
-		case 3:
-			data[0] = 0;
-			data[1] = 0;
-			data = readDate();
-			minTemperature(data);
-			break;
-		case 4:
-			data[0] = 0;
-			data[1] = 0;
-			data = readDate();
-			maxTemperature(data);
-			break;
-		case 5:
-			data[0] = 0;
-			data[1] = 0;
+			option = ler.nextInt();
 			
-			data = readDate();
-			metReport(data);
-			break;
-		}
-return 0;
+			switch (option) {
+			case 1:
+
+				data[0] = 0;
+				data[1] = 0;
+				data = readDate();
+				inTemperature(data);
+				break;
+			case 2:
+				data[0] = 0;
+				data[1] = 0;
+				data = readDate();
+				avgTemperature(data);
+				break;
+			case 3:
+				data[0] = 0;
+				data[1] = 0;
+				data = readDate();
+				minTemperature(data);
+				break;
+			case 4:
+				data[0] = 0;
+				data[1] = 0;
+				data = readDate();
+				maxTemperature(data);
+				break;
+			case 5:
+				data[0] = 0;
+				data[1] = 0;
+				
+				data = readDate();
+				metReport(data);
+				break;
+			default:
+				System.out.println("Ops!Opção escolhida não é válida!\n");
+				break;
+			}
+		}while(option != 6);
+		return 0;
 	}
 	public static final Scanner ler = new Scanner(System.in);
 
@@ -136,7 +131,6 @@ return 0;
 			System.out.print("Desculpe!Ano informado é invalido, digite um valor entre 2011 e 2020:\n");
 			year = ler.nextInt();
 		}
-		ler.close();
 
 		data[0] = month - 1;
 		data[1] = year - 2011;
