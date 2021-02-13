@@ -11,7 +11,6 @@ public class Temperatura {
 	static Double[][][] dados = new Double[10][12][31];
 
 	public static void main(String[] args) {
-	
 
 		// Temperatura para o mês de janeiro/2020 em Brasília obtidas do site do INMET
 		Temperatura.dados[9][0][0] = 21.2;
@@ -45,19 +44,18 @@ public class Temperatura {
 		Temperatura.dados[9][0][28] = 22.3;
 		Temperatura.dados[9][0][29] = 22.9;
 		Temperatura.dados[9][0][30] = 24.1;
-       
-		
+
 		mainMenu();
-	
+
 	}
 
-	public static int mainMenu(){
-		
-	    int option;
+	public static int mainMenu() {
+
+		int option;
 		int[] data = new int[31];
 		Scanner ler = new Scanner(System.in);
-		
-		do{
+
+		do {
 			System.out.print("Informe o número correspondente a opção desejada \n");
 			System.out.print("Digite 1 para entrar dados de temperatura \n");
 			System.out.print("Digite 2 para obter temperatura média \n");
@@ -66,7 +64,7 @@ public class Temperatura {
 			System.out.print("Digite 5 para obter relatório meteorológico \n");
 
 			option = ler.nextInt();
-			
+
 			switch (option) {
 			case 1:
 
@@ -96,7 +94,7 @@ public class Temperatura {
 			case 5:
 				data[0] = 0;
 				data[1] = 0;
-				
+
 				data = readDate();
 				metReport(data);
 				break;
@@ -104,9 +102,10 @@ public class Temperatura {
 				System.out.println("Ops!Opção escolhida não é válida!\n");
 				break;
 			}
-		}while(option != 6);
+		} while (option != 6);
 		return 0;
 	}
+
 	public static final Scanner ler = new Scanner(System.in);
 
 // Leitura da data desejada pelo usuário
@@ -182,7 +181,6 @@ public class Temperatura {
 
 		}
 
-
 		return dados;
 
 	}
@@ -205,44 +203,51 @@ public class Temperatura {
 		year = data[1];
 		int ano = year + 2011;
 
-		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
-			for (i = 0; i <= 30; i++) {
-				temperature[i] = dados[year][month][i];
-				sum = sum + temperature[i];
-				numDay = 31;
-
-			}
-		}
-
-		if (month == 3 || month == 5 || month == 8 || month == 10) {
-			for (i = 0; i <= 29; i++) {
-				temperature[i] = dados[year][month][i];
-				sum = sum + temperature[i];
-				numDay = 30;
-				;
-			}
-
-		} else if (month == 1) {
-			if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
-				for (i = 0; i <= 28; i++) {
+		if (dados[year][month][0] != null) {
+			if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
+				for (i = 0; i <= 30; i++) {
 					temperature[i] = dados[year][month][i];
 					sum = sum + temperature[i];
-					numDay = 29;
-				}
-			} else {
-				for (i = 0; i <= 27; i++) {
-					temperature[i] = dados[year][month][i];
-					sum = sum + temperature[i];
-					numDay = 28;
+					numDay = 31;
+
 				}
 			}
+
+			if (month == 3 || month == 5 || month == 8 || month == 10) {
+				for (i = 0; i <= 29; i++) {
+					temperature[i] = dados[year][month][i];
+					sum = sum + temperature[i];
+					numDay = 30;
+					;
+				}
+
+			} else if (month == 1) {
+				if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+					for (i = 0; i <= 28; i++) {
+						temperature[i] = dados[year][month][i];
+						sum = sum + temperature[i];
+						numDay = 29;
+					}
+				} else {
+					for (i = 0; i <= 27; i++) {
+						temperature[i] = dados[year][month][i];
+						sum = sum + temperature[i];
+						numDay = 28;
+					}
+				}
+			}
+			avgTemp[month][year] = sum / numDay;
+			double media = sum / numDay;
+			System.out.print("A temperatura média foi de ");
+			System.out.printf("%.2f", media);
+			System.out.print("°C");
+			// Temperatura.averageTemp[month][year] = avgTemp[month][year];
+		} else {
+			System.out.print(
+					"Não existem dados disponíveis para esse mês/ano. Para proceder digite 1 no menu principal. \n");
+
 		}
-		avgTemp[month][year] = sum / numDay;
-		double media = sum / numDay;
-		System.out.print("A temperatura média foi de ");
-		System.out.printf("%.2f", media);
-		System.out.print("°C");
-		// Temperatura.averageTemp[month][year] = avgTemp[month][year];
+
 		return 0;
 	}
 
@@ -266,57 +271,14 @@ public class Temperatura {
 		ArrayList<Integer> datas = new ArrayList<Integer>();
 
 		// Arrumar a inicialização aqui
-		temperature[0] = dados[year][month][0];
-		minimumTemperature = temperature[0];
 
-		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
+		if (dados[year][month][0] != null) {
+			temperature[0] = dados[year][month][0];
+			minimumTemperature = temperature[0];
 
-			for (i = 1; i <= 30; i++) {
-				temperature[i] = dados[year][month][i];
-				if (minimumTemperature > temperature[i]) {
-					minimumTemperature = temperature[i];
-					datas.clear();
-					a = i + 1;
-					datas.add(a);
+			if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
 
-				} else if (minimumTemperature == temperature[i]) {
-					a = i + 1;
-					datas.add(a);
-				}
-			}
-		}
-
-		if (month == 3 || month == 5 || month == 8 || month == 10) {
-			for (i = 1; i <= 29; i++) {
-				temperature[i] = dados[year][month][i];
-				if (minimumTemperature > temperature[i]) {
-					minimumTemperature = temperature[i];
-					datas.clear();
-					a = i + 1;
-					datas.add(a);
-
-				} else if (minimumTemperature == temperature[i]) {
-					a = i + 1;
-					datas.add(a);
-				}
-			}
-		} else if (month == 1) {
-			if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
-				for (i = 1; i <= 28; i++) {
-					temperature[i] = dados[year][month][i];
-					if (minimumTemperature > temperature[i]) {
-						minimumTemperature = temperature[i];
-						datas.clear();
-						a = i + 1;
-						datas.add(a);
-
-					} else if (minimumTemperature == temperature[i]) {
-						a = i + 1;
-						datas.add(a);
-					}
-				}
-			} else {
-				for (i = 1; i <= 27; i++) {
+				for (i = 1; i <= 30; i++) {
 					temperature[i] = dados[year][month][i];
 					if (minimumTemperature > temperature[i]) {
 						minimumTemperature = temperature[i];
@@ -330,13 +292,63 @@ public class Temperatura {
 					}
 				}
 			}
+
+			if (month == 3 || month == 5 || month == 8 || month == 10) {
+				for (i = 1; i <= 29; i++) {
+					temperature[i] = dados[year][month][i];
+					if (minimumTemperature > temperature[i]) {
+						minimumTemperature = temperature[i];
+						datas.clear();
+						a = i + 1;
+						datas.add(a);
+
+					} else if (minimumTemperature == temperature[i]) {
+						a = i + 1;
+						datas.add(a);
+					}
+				}
+			} else if (month == 1) {
+				if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+					for (i = 1; i <= 28; i++) {
+						temperature[i] = dados[year][month][i];
+						if (minimumTemperature > temperature[i]) {
+							minimumTemperature = temperature[i];
+							datas.clear();
+							a = i + 1;
+							datas.add(a);
+
+						} else if (minimumTemperature == temperature[i]) {
+							a = i + 1;
+							datas.add(a);
+						}
+					}
+				} else {
+					for (i = 1; i <= 27; i++) {
+						temperature[i] = dados[year][month][i];
+						if (minimumTemperature > temperature[i]) {
+							minimumTemperature = temperature[i];
+							datas.clear();
+							a = i + 1;
+							datas.add(a);
+
+						} else if (minimumTemperature == temperature[i]) {
+							a = i + 1;
+							datas.add(a);
+						}
+					}
+				}
+			}
+
+			System.out.print("A temperatura mínima foi de " + minimumTemperature + "°C no(s) dia(s) ");
+			for (int cont = 0; cont < datas.size(); cont++) {
+				System.out.print(datas.get(cont) + " ");
+			}
+		} else {
+			System.out.print(
+					"Não existem dados disponíveis para esse mês/ano. Para proceder digite 1 no menu principal. \n");
 		}
 
-		System.out.print("A temperatura mínima foi de " + minimumTemperature + "°C no(s) dia(s) ");
-		for (int cont = 0; cont < datas.size(); cont++) {
-			System.out.print(datas.get(cont) + " ");
-		}
-		return minimumTemperature;
+		return 0;
 	}
 
 //Cálculo da temperatura máxima de um determinado período
@@ -356,58 +368,13 @@ public class Temperatura {
 		year = date[1];
 		int ano = year + 2011;
 		ArrayList<Integer> datas = new ArrayList<Integer>();
+		if (dados[year][month][0] != null) {
+			// Arrumar a inicialização aqui
+			temperature[0] = dados[year][month][0];
+			maximumTemperature = temperature[0];
 
-		// Arrumar a inicialização aqui
-		temperature[0] = dados[year][month][0];
-		maximumTemperature = temperature[0];
-
-		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
-			for (i = 1; i <= 30; i++) {
-				temperature[i] = dados[year][month][i];
-				if (temperature[i] > maximumTemperature) {
-					maximumTemperature = temperature[i];
-					datas.clear();
-					a = i + 1;
-					datas.add(a);
-
-				} else if (maximumTemperature == temperature[i]) {
-					a = i + 1;
-					datas.add(a);
-				}
-			}
-		}
-
-		if (month == 3 || month == 5 || month == 8 || month == 10) {
-			for (i = 1; i <= 29; i++) {
-				temperature[i] = dados[year][month][i];
-				if (temperature[i] > maximumTemperature) {
-					maximumTemperature = temperature[i];
-					datas.clear();
-					a = i + 1;
-					datas.add(a);
-
-				} else if (maximumTemperature == temperature[i]) {
-					a = i + 1;
-					datas.add(a);
-				}
-			}
-		} else if (month == 1) {
-			if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
-				for (i = 1; i <= 28; i++) {
-					temperature[i] = dados[year][month][i];
-					if (temperature[i] > maximumTemperature) {
-						maximumTemperature = temperature[i];
-						datas.clear();
-						a = i + 1;
-						datas.add(a);
-
-					} else if (maximumTemperature == temperature[i]) {
-						a = i + 1;
-						datas.add(a);
-					}
-				}
-			} else {
-				for (i = 1; i <= 27; i++) {
+			if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
+				for (i = 1; i <= 30; i++) {
 					temperature[i] = dados[year][month][i];
 					if (temperature[i] > maximumTemperature) {
 						maximumTemperature = temperature[i];
@@ -421,13 +388,60 @@ public class Temperatura {
 					}
 				}
 			}
-		}
 
-		System.out.print("A temperatura mínima foi de " + maximumTemperature + "°C no(s) dia(s) ");
-		for (int cont = 0; cont < datas.size(); cont++) {
-			System.out.print(datas.get(cont) + " ");
+			if (month == 3 || month == 5 || month == 8 || month == 10) {
+				for (i = 1; i <= 29; i++) {
+					temperature[i] = dados[year][month][i];
+					if (temperature[i] > maximumTemperature) {
+						maximumTemperature = temperature[i];
+						datas.clear();
+						a = i + 1;
+						datas.add(a);
+
+					} else if (maximumTemperature == temperature[i]) {
+						a = i + 1;
+						datas.add(a);
+					}
+				}
+			} else if (month == 1) {
+				if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+					for (i = 1; i <= 28; i++) {
+						temperature[i] = dados[year][month][i];
+						if (temperature[i] > maximumTemperature) {
+							maximumTemperature = temperature[i];
+							datas.clear();
+							a = i + 1;
+							datas.add(a);
+
+						} else if (maximumTemperature == temperature[i]) {
+							a = i + 1;
+							datas.add(a);
+						}
+					}
+				} else {
+					for (i = 1; i <= 27; i++) {
+						temperature[i] = dados[year][month][i];
+						if (temperature[i] > maximumTemperature) {
+							maximumTemperature = temperature[i];
+							datas.clear();
+							a = i + 1;
+							datas.add(a);
+
+						} else if (maximumTemperature == temperature[i]) {
+							a = i + 1;
+							datas.add(a);
+						}
+					}
+				}
+			}
+
+			System.out.print("A temperatura mínima foi de " + maximumTemperature + "°C no(s) dia(s) ");
+			for (int cont = 0; cont < datas.size(); cont++) {
+				System.out.print(datas.get(cont) + " ");
+			}
 		}
-		return maximumTemperature;
+		else {System.out.print("Não existem dados disponíveis para esse mês/ano. Para proceder digite 1 no menu principal. \n");}
+		return 0;
 	}
 
 //Relatório Metereológico
@@ -443,45 +457,50 @@ public class Temperatura {
 		int mes = month + 1;
 		ano = year + 2011;
 		int dia;
-		
-		
+		Double[][][] dados = new Double[9][12][31];
+		dados = Temperatura.dados;
+		if (dados[year][month][0] != null) {
+			
 		System.out.print("Relatório de Temperaturas de " + mes + "/" + ano + "\n");
-		
-		 avgTemperature(date);
-		 System.out.print(" \n");
-		  minTemperature(date);
-		 System.out.print(" \n");
-		  maxTemperature(date);
-		 System.out.print(" \n");
 
+		avgTemperature(date);
+		System.out.print(" \n");
+		minTemperature(date);
+		System.out.print(" \n");
+		maxTemperature(date);
+		System.out.print(" \n");
 
 		// Data Válida
 		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
 			for (cont = 0; cont <= 30; cont++) {
 				dia = cont + 1;
-				System.out.print("Dia " + dia + ": " + Temperatura.dados[year][month][cont] + "°C \n");}}
+				System.out.print("Dia " + dia + ": " + Temperatura.dados[year][month][cont] + "°C \n");
+			}
+		}
 
 		else if (month == 3 || month == 5 || month == 8 || month == 10) {
 			for (cont = 0; cont <= 29; cont++) {
 				dia = cont + 1;
-				System.out.print("Dia " + dia + ": " + Temperatura.dados[year][month][cont] + "°C \n");}
-		}
-	   else if(month==1){
-	               if ((ano%4 == 0 && ano%100 !=0) ||(ano%400 == 0) ){
-	            	   for (cont=0;cont<=28;cont++) {
-		            		dia=cont+1;
-		            		System.out.print("Dia "+dia+": "+Temperatura.dados[year][month][cont]+"°C \n");	
-		            	}
-	                
-	               } else {
-	                   for (cont=0;cont<=29;cont++) {
-		            		dia=cont+1;
-		            		System.out.print("Dia "+dia+": "+Temperatura.dados[year][month][cont]+"°C \n");
-		            	}
-	                 
-	               }
+				System.out.print("Dia " + dia + ": " + Temperatura.dados[year][month][cont] + "°C \n");
+			}
+		} else if (month == 1) {
+			if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+				for (cont = 0; cont <= 28; cont++) {
+					dia = cont + 1;
+					System.out.print("Dia " + dia + ": " + Temperatura.dados[year][month][cont] + "°C \n");
+				}
 
-	            }
+			} else {
+				for (cont = 0; cont <= 29; cont++) {
+					dia = cont + 1;
+					System.out.print("Dia " + dia + ": " + Temperatura.dados[year][month][cont] + "°C \n");
+				}
 
+			}
 
-return 0;}}
+		}}
+		else {System.out.print("Não existem dados disponíveis para esse mês/ano. Para proceder digite 1 no menu principal. \n");}
+
+		return 0;
+	}
+}
